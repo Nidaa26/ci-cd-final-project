@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: ci-cd-pipelinerun
+spec:
+  pipelineRef:
+    name: ci-cd-pipeline
+  params:
+    - name: repo-url
+      value: https://github.com/Nidaa26/ci-cd-final-project.git
+    - name: branch
+      value: main
+    - name: image-name
+      value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/ci-cd-final-project:latest
+  workspaces:
+    - name: pipeline-workspace
+      persistentVolumeClaim:
+        claimName: pipelinerun-pvc
